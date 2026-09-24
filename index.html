@@ -47,50 +47,51 @@
       --line:rgba(237,234,220,.32);--shadow:0 12px 30px rgba(0,0,0,.5);
     }
   }
-  button{font:inherit;color:inherit;cursor:pointer}
-  :focus-visible{outline:2px solid var(--amber);outline-offset:3px;border-radius:6px}
+  button,input,select,textarea{font:inherit;color:inherit;-webkit-tap-highlight-color:transparent}
+  button{cursor:pointer}
+  button:focus:not(:focus-visible){outline:none}
+  :focus-visible{outline:2px solid var(--amber-ink);outline-offset:3px;border-radius:6px}
 
-  header{
-    padding:14px 18px 10px;display:flex;align-items:baseline;gap:10px;
-    border-bottom:1px solid var(--line);
-  }
+  header{padding:14px 18px 10px;display:flex;align-items:baseline;gap:10px}
   .wordmark{font-size:22px;font-weight:600;letter-spacing:.02em;margin:0}
   .wordmark span{color:var(--amber-ink)}
   .tally{margin-left:auto;font:13px/1.4 ui-sans-serif,system-ui,sans-serif;color:var(--ink-soft);font-variant-numeric:tabular-nums}
 
-  .filters{
-    display:flex;gap:6px;padding:10px 18px;overflow-x:auto;scrollbar-width:none;
-    border-bottom:1px solid var(--line);
+  .tabs{display:flex;gap:2px;margin:0 16px 10px;padding:3px;border:1px solid var(--line);border-radius:12px}
+  .tabs button{
+    flex:1;background:transparent;border:0;border-radius:9px;padding:9px 6px;
+    font:500 15px/1 ui-sans-serif,system-ui,sans-serif;
   }
+  .tabs button[aria-selected="true"]{background:var(--ink);color:var(--paper)}
+
+  .filters{display:flex;gap:6px;padding:0 18px 12px;overflow-x:auto;scrollbar-width:none}
   .filters::-webkit-scrollbar{display:none}
   .chip{
     flex:0 0 auto;border:1px solid var(--line);background:transparent;
-    border-radius:999px;padding:6px 13px;font-size:14px;white-space:nowrap;
+    border-radius:999px;padding:6px 13px;font:14px/1.3 ui-sans-serif,system-ui,sans-serif;white-space:nowrap;
   }
   .chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
 
-  main{flex:1;display:flex;flex-direction:column;padding:16px 16px 0;min-height:0}
+  main{flex:1;display:flex;flex-direction:column;padding:0 16px;min-height:0}
+  .view{display:none;flex-direction:column;flex:1;min-height:0}
+  .view.on{display:flex}
 
-  .stage{perspective:1400px;flex:1;min-height:340px;display:flex}
-  .card{
-    position:relative;flex:1;transform-style:preserve-3d;
-    transition:transform .5s cubic-bezier(.2,.7,.3,1);
-  }
+  .stage{perspective:1400px;flex:1;min-height:330px;display:flex}
+  .card{position:relative;flex:1;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.2,.7,.3,1)}
   .card.flipped{transform:rotateY(180deg)}
   @media (prefers-reduced-motion:reduce){.card{transition:none}}
   .face{
     position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;
-    border-radius:var(--radius);box-shadow:var(--shadow);
+    border-radius:var(--radius);box-shadow:var(--shadow);background:var(--paper-2);
+    border:1px solid var(--line);color:var(--ink);
     padding:22px 20px;display:flex;flex-direction:column;overflow:auto;
   }
-  .face.front{background:var(--paper-2);color:var(--ink);border:1px solid var(--line)}
-  .face.back{background:var(--paper-2);color:var(--ink);transform:rotateY(180deg);border:1px solid var(--line)}
+  .face.back{transform:rotateY(180deg)}
 
   .meta{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:auto}
   .tag{
     font:500 12px/1 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
-    padding:5px 9px;border-radius:999px;border:1px solid var(--line);
-    color:var(--ink);
+    padding:5px 9px;border-radius:999px;border:1px solid var(--line);color:var(--ink);
   }
   .tag.where{background:var(--amber);color:#16211B;border-color:transparent}
   .tag.extra{background:var(--rust);color:#FBF5EC;border-color:transparent}
@@ -102,34 +103,57 @@
   .tips{margin:0;padding-left:18px;font-size:16px;line-height:1.5;color:var(--ink)}
   .tips li{margin-bottom:8px;max-width:60ch}
   .tips li::marker{color:var(--amber-ink)}
-  .src{
-    margin-top:16px;padding-top:10px;border-top:1px solid var(--line);
-    font:13px/1.55 ui-sans-serif,system-ui,sans-serif;color:var(--ink-soft);
-  }
+  .src{margin-top:16px;padding-top:10px;border-top:1px solid var(--line);font:13px/1.55 ui-sans-serif,system-ui,sans-serif;color:var(--ink-soft)}
   .checkme{color:var(--rust-ink);font-weight:600}
 
-  .bar{
-    display:flex;gap:8px;padding:14px 0 calc(14px + env(safe-area-inset-bottom,0px));
-  }
+  .bar{display:flex;gap:8px;padding:14px 0 calc(14px + env(safe-area-inset-bottom,0px))}
   .bar button{
     flex:1;padding:14px 10px;border-radius:14px;border:1px solid var(--line);
     background:transparent;font:500 15px/1 ui-sans-serif,system-ui,sans-serif;
   }
   .bar button.primary{background:var(--amber);border-color:transparent;color:#16211B;font-weight:600;flex:1.4}
 
-  .list{display:none;padding:4px 0 24px}
-  .list.on{display:block}
-  .stage.off,.bar.off{display:none}
-  .row{
-    width:100%;text-align:left;background:transparent;border:0;border-bottom:1px solid var(--line);
-    padding:12px 2px;display:flex;gap:10px;align-items:baseline;
+  .toolbar{display:flex;gap:8px;padding-bottom:10px}
+  .search{
+    flex:1;min-width:0;padding:11px 12px;border-radius:12px;border:1px solid var(--line);
+    background:transparent;font:15px/1 ui-sans-serif,system-ui,sans-serif;
   }
-  .row b{font-weight:600;font-size:16px}
+  .newbtn{
+    padding:11px 14px;border-radius:12px;border:1px solid transparent;background:var(--amber);
+    color:#16211B;font:600 15px/1 ui-sans-serif,system-ui,sans-serif;white-space:nowrap;
+  }
+  .scroll{flex:1;overflow:auto;-webkit-overflow-scrolling:touch;padding-bottom:20px}
+  .group{margin:16px 0 2px;font:600 14px/1 ui-sans-serif,system-ui,sans-serif;color:var(--ink)}
+  .row{display:flex;gap:8px;align-items:center;border-bottom:1px solid var(--line);padding:4px 0}
+  .row .open{
+    flex:1;min-width:0;text-align:left;background:none;border:0;padding:10px 2px;
+  }
+  .row b{font-weight:600;font-size:16px;display:block}
   .row small{font:13px/1.4 ui-sans-serif,system-ui,sans-serif;color:var(--ink-soft)}
-  .row .count{margin-left:auto;font-variant-numeric:tabular-nums;color:var(--amber-ink);font-size:14px;font-weight:600}
-  .group{margin:18px 0 4px;font:600 14px/1 ui-sans-serif,system-ui,sans-serif;color:var(--ink)}
-  footer{padding:10px 18px calc(18px + env(safe-area-inset-bottom,0px));font:13px/1.5 ui-sans-serif,system-ui,sans-serif;color:var(--ink-soft)}
-  footer button{background:none;border:0;padding:0;text-decoration:underline;font:inherit}
+  .row .count{font-variant-numeric:tabular-nums;color:var(--amber-ink);font-size:14px;font-weight:600}
+  .row .edit{
+    background:none;border:1px solid var(--line);border-radius:9px;padding:7px 11px;
+    font:500 13px/1 ui-sans-serif,system-ui,sans-serif;
+  }
+  .empty{padding:28px 4px;color:var(--ink-soft);font:15px/1.5 ui-sans-serif,system-ui,sans-serif}
+
+  .editor{flex:1;overflow:auto;padding-bottom:calc(20px + env(safe-area-inset-bottom,0px))}
+  .editor label{display:block;margin:14px 0 5px;font:600 13px/1 ui-sans-serif,system-ui,sans-serif;color:var(--ink-soft)}
+  .editor input,.editor select,.editor textarea{
+    width:100%;padding:11px 12px;border-radius:12px;border:1px solid var(--line);
+    background:var(--paper-2);color:var(--ink);font:16px/1.45 ui-sans-serif,system-ui,sans-serif;
+  }
+  .editor textarea{resize:vertical}
+  .editor .note{margin:6px 0 0;font:13px/1.45 ui-sans-serif,system-ui,sans-serif;color:var(--ink-soft)}
+  .editor h2{font-size:22px;margin:6px 0 0}
+  .danger{color:var(--rust-ink);border-color:var(--rust-ink)!important}
+  .tools{border-top:1px solid var(--line);margin-top:18px;padding-top:14px;display:flex;flex-wrap:wrap;gap:8px}
+  .tools button{
+    background:none;border:1px solid var(--line);border-radius:10px;padding:9px 12px;
+    font:500 13px/1 ui-sans-serif,system-ui,sans-serif;
+  }
+  .say{margin:10px 2px 0;font:13px/1.5 ui-sans-serif,system-ui,sans-serif;color:var(--amber-ink);min-height:1.2em}
+  footer{padding:6px 18px calc(16px + env(safe-area-inset-bottom,0px));font:13px/1.5 ui-sans-serif,system-ui,sans-serif;color:var(--ink-soft)}
 </style>
 </head>
 <body>
@@ -139,245 +163,311 @@
   <span class="tally" id="tally"></span>
 </header>
 
+<div class="tabs" role="tablist" id="tabs">
+  <button role="tab" id="tabCards" aria-selected="true">Practise</button>
+  <button role="tab" id="tabManage" aria-selected="false">All cards</button>
+</div>
+
 <div class="filters" id="filters"></div>
 
 <main>
-  <div class="stage" id="stage">
-    <div class="card" id="card">
-      <div class="face front">
-        <div class="meta" id="frontMeta"></div>
-        <h2 class="title" id="frontTitle">Ready</h2>
-        <p class="hint">Tap the card to see the exercise. Swipe for another.</p>
-      </div>
-      <div class="face back">
-        <div class="meta" id="backMeta"></div>
-        <h2 class="title" id="backTitle" style="font-size:22px;margin:12px 0 6px"></h2>
-        <p class="task" id="task"></p>
-        <h2 id="tipHead" hidden>Tips</h2>
-        <ul class="tips" id="tips"></ul>
-        <p class="src" id="src"></p>
+  <section class="view on" id="viewCards">
+    <div class="stage">
+      <div class="card" id="card">
+        <div class="face front">
+          <div class="meta" id="frontMeta"></div>
+          <h2 class="title" id="frontTitle">Ready</h2>
+          <p class="hint">Tap the card to see the exercise. Swipe for another.</p>
+        </div>
+        <div class="face back">
+          <div class="meta" id="backMeta"></div>
+          <h2 class="title" id="backTitle" style="font-size:22px;margin:12px 0 6px"></h2>
+          <p class="task" id="task"></p>
+          <h2 id="tipHead" hidden>Tips</h2>
+          <ul class="tips" id="tips"></ul>
+          <p class="src" id="src"></p>
+        </div>
       </div>
     </div>
-  </div>
+    <div class="bar">
+      <button id="skip">Skip</button>
+      <button id="flip" class="primary">Flip</button>
+      <button id="done">Done</button>
+    </div>
+  </section>
 
-  <div class="bar" id="bar">
-    <button id="skip">Skip</button>
-    <button id="flip" class="primary">Flip</button>
-    <button id="done">Done</button>
-  </div>
+  <section class="view" id="viewManage">
+    <div class="toolbar">
+      <input class="search" id="search" type="search" placeholder="Search cards" autocomplete="off">
+      <button class="newbtn" id="newCard">New card</button>
+    </div>
+    <div class="scroll" id="rows"></div>
+  </section>
 
-  <div class="list" id="list"></div>
+  <section class="view" id="viewEdit">
+    <div class="editor">
+      <h2 id="editHead">Edit card</h2>
+      <label for="e_t">Title</label>
+      <input id="e_t" type="text" autocomplete="off">
+      <label for="e_task">What to do</label>
+      <textarea id="e_task" rows="5"></textarea>
+      <label for="e_tips">Tips, one per line</label>
+      <textarea id="e_tips" rows="5"></textarea>
+      <label for="e_c">Category</label>
+      <input id="e_c" type="text" list="cats" autocomplete="off">
+      <datalist id="cats"></datalist>
+      <label for="e_w">Where</label>
+      <select id="e_w">
+        <option>At home</option>
+        <option>Out and about</option>
+        <option>Anywhere</option>
+      </select>
+      <label for="e_s">Source</label>
+      <input id="e_s" type="text" autocomplete="off">
+      <p class="note">Sources beginning “MDDTC” count as club cards in the filters. Anything else is an extra.</p>
+      <label for="e_check">Handout to check, if any</label>
+      <input id="e_check" type="text" autocomplete="off">
+      <div class="bar">
+        <button id="editCancel">Cancel</button>
+        <button id="editSave" class="primary">Save card</button>
+      </div>
+      <div class="bar" id="deleteWrap">
+        <button id="editDelete" class="danger">Delete card</button>
+      </div>
+      <p class="say" id="editSay"></p>
+    </div>
+  </section>
 </main>
 
 <footer>
   <span id="foot"></span>
-  <button id="reset">Reset counts</button>
 </footer>
 
 <script>
-/* ---------- deck -------------------------------------------------------- */
-/* src: where the card came from.  check:true means the wording here is a
-   standard method, not Rachel's - confirm against the club handout named. */
-const DECK = [
- {t:"Sit with distractions",c:"Attention",w:"At home",s:"MDDTC · week 1",
-  task:"Ask for a sit, then add movement: march on the spot, wave your arms in the air, and build up to turning a complete circle in front of him while he stays sitting.",
-  tips:["Add one distraction at a time. If he breaks, go back a step rather than repeating the cue.","Reward while he is still sitting, not after he has got up."]},
+const BUILTIN = [
+ {t:"Sit while you move about",c:"Attention",w:"At home",s:"MDDTC \u00b7 week 1",
+  task:"Ask for one sit. While he holds it, march on the spot, then reward. Ask again and wave your arms above your head. Build up until you can turn a full circle in front of him and his bottom stays down.",
+  tips:["Reward while he is still sitting, not after he stands up.","If he breaks twice in a row, go back to the easier version for a few goes."]},
 
- {t:"The down",c:"Manners",w:"At home",s:"MDDTC · week 1",
-  task:"Practise downs in a different session from your sit work.",
-  tips:["Keeping sits and downs apart early on stops him guessing between the two.","Little and often beats one long session."]},
+ {t:"Lie down on cue",c:"Manners",w:"At home",s:"MDDTC \u00b7 week 1",
+  task:"In a session of its own, take a treat from his nose down to the floor between his front paws and let him follow it. The moment his elbows touch, mark and feed. Six or seven goes, then stop.",
+  tips:["Keep downs and sits in separate sessions early on, or he starts guessing between the two.","Work on carpet or grass. A cold hard floor puts pups off lying down."]},
 
- {t:"Kissy kissy game",c:"Attention",w:"At home",s:"MDDTC · week 1",check:"Covered in the hall — the email is only a reminder, so fill this one in from your class notes.",
-  task:"Week 1 class game. The email lists it as homework but doesn't set out the method.",
-  tips:["Ask Rachel, or check your week 1 notes, then edit this card in the file."]},
+ {t:"Towel the paws",c:"Handling",w:"At home",s:"MDDTC \u00b7 week 2",
+  task:"With him beside you on the sofa, pick up one paw, wipe it with a towel for two seconds, put it down and feed him. One paw per go, working through all four across the evening.",
+  tips:["Stop while he is still happy rather than waiting for him to pull away.","Do it during television so it becomes ordinary rather than an event."]},
 
- {t:"Something to do while waiting",c:"Life skills",w:"Anywhere",s:"MDDTC · week 1",
-  task:"Take a stuffed Kong, lick mat, antler or chew so he has something to settle with while he isn't working.",
-  tips:["Freeze a stuffed Kong to make it last a whole class.","A pup lying down with a chew is still learning — that is the settle."]},
+ {t:"Sit before every door and meal",c:"Manners",w:"At home",s:"MDDTC \u00b7 week 2",
+  task:"For one whole day, nothing happens until he sits. The bowl stays up, the lead stays off, the back door stays shut. He sits, then the thing happens.",
+  tips:["If you don't expect it every time, he won't offer it every time.","Don't repeat the cue. Wait him out and reward the moment he sits."]},
 
- {t:"Rewards on you, fast",c:"Life skills",w:"Anywhere",s:"MDDTC · week 1",
-  task:"Take plenty of rewards and vary them so you can ring the changes. Wear a bumbag, pouch, or a jacket whose pockets you don't mind smelling, so treats come out quickly.",
-  tips:["A slow reward marks the wrong moment — aim to deliver within a second of the click.","Keep the best food for the hardest work."]},
+ {t:"Loose lead in the hallway",c:"Lead",w:"At home",s:"MDDTC \u00b7 week 2",
+  task:"Lead on, indoors. Walk the length of the hall and feed him at your side every few steps while the lead is slack. The instant it goes tight, stop dead and wait for slack before moving again. Five minutes, then finish.",
+  tips:["Get it right in the hall and round the kitchen before you expect it on a pavement.","Handouts: 'Loose Lead Walking (first steps)' and 'LLW step 2'."]},
 
- {t:"Paw wiping",c:"Handling",w:"At home",s:"MDDTC · week 2",
-  task:"Wipe his paws with a towel while you watch television. Everything can be turned into a training session.",
-  tips:["One paw, one treat, then stop. Build up from there.","Being consistent speeds up his understanding of what is expected."]},
+ {t:"Train for ten minutes instead of walking for twenty",c:"Lead",w:"Out and about",s:"MDDTC \u00b7 week 2",
+  task:"Take him out with treats and no destination in mind. Spend ten or fifteen minutes on sits, hand touches and a few steps of loose lead, then turn round and come home.",
+  tips:["He comes home more tired from concentrating than from dragging you round the block.","Several short outings a day beat one long one."]},
 
- {t:"Sit for everything",c:"Manners",w:"At home",s:"MDDTC · week 2",
-  task:"Make him sit for his food, for the lead going on, for the lead coming off, for doors.",
-  tips:["If you don't expect it every time, he won't offer it every time.","Once it becomes automatic, it has landed."]},
+ {t:"Sit at your left leg, then your right",c:"Manners",w:"Anywhere",s:"MDDTC \u00b7 week 2",
+  task:"Lure him into a sit beside your left leg, facing the same way you are, as if you were waiting to cross a road. Mark and feed him in position. Ten goes, then start again on your right.",
+  tips:["Most pups sit happily in front of you and are much less sure at the side. Treat each side as a new exercise.","Feed him at your leg, not out in front, or he'll drift round to face you."]},
 
- {t:"Loose lead walking indoors",c:"Lead",w:"At home",s:"MDDTC · week 2",
-  task:"Get loose lead walking right before you take it outside: up and down the hall, round and round the kitchen, and in the back garden.",
-  tips:["Handouts: 'Loose Lead Walking (first steps)' and 'LLW step 2'.","Quiet, familiar rooms first — the pavement is the exam, not the lesson."]},
+ {t:"Hold the sit while you look away",c:"Attention",w:"Anywhere",s:"MDDTC \u00b7 week 2",
+  task:"With him sitting at your side, look away for one second, then back at him. Click while he is still sitting, then feed. Build up to looking away for three seconds while he holds the sit for six.",
+  tips:["Click before you reach for the reward.","Add a second at a time. Three seconds of no eye contact is a long time for a pup."]},
 
- {t:"Walks as training",c:"Lead",w:"Out and about",s:"MDDTC · week 2",
-  task:"When you take him out, don't think about going for a walk — think training. Ten or fifteen minutes of concentration tires him more than twenty minutes of dragging you around.",
-  tips:["Several short outings a day beat one long one.","Time consuming, but it is the part that pays back."]},
+ {t:"Nose to your hand",c:"Attention",w:"At home",s:"MDDTC \u00b7 week 2",check:"Standard method \u2014 check the club's 'Hand Touch' handout for Rachel's steps.",
+  task:"Hold a flat palm a few inches from his nose. The moment his nose touches it, click and feed. Move your hand somewhere new \u2014 low, high, off to one side \u2014 and repeat ten times.",
+  tips:["Once it is solid you can move him around without touching the lead.","It makes a good emergency recall for the last few feet."]},
 
- {t:"Sit at your side",c:"Manners",w:"Anywhere",s:"MDDTC · week 2",
-  task:"Teach him to sit by your left leg and by your right leg, as if you were about to cross the road. Sit means put your bottom on the floor, wherever he is.",
-  tips:["Most pups are happy to sit in front of you and much less sure at the side.","Do each side as its own exercise."]},
+ {t:"Call him back, then let him go again",c:"Recall",w:"Out and about",s:"MDDTC \u00b7 week 3",check:"Standard method \u2014 the club's 'Recall' handout has the full version.",
+  task:"Somewhere safe and enclosed, let him potter off. Call him once, brightly. When he arrives, take his collar and feed several treats one after another, then tell him to go and play again.",
+  tips:["Never call him to do something he dislikes.","Being released again is half the reward \u2014 it teaches him that coming back doesn't end the fun.","Handout: 'Recall'."]},
 
- {t:"Sit while you look away",c:"Attention",w:"Anywhere",s:"MDDTC · week 2",
-  task:"With him sitting at your side, break eye contact for a few seconds. The goal is six seconds of sit while you look away for three.",
-  tips:["Click before you reach for the reward.","Build the look-away a second at a time."]},
+ {t:"Sit for the lead coming off",c:"Recall",w:"Out and about",s:"MDDTC \u00b7 week 3",
+  task:"Rachel's set-up procedure. Ask for a sit and feed. Unclip the lead while he stays sitting and feed again. Then vary what comes next: sometimes clip the lead back on and feed, sometimes send him off to play.",
+  tips:["Mixing it up stops him predicting that lead-off always means freedom.","Ask her about long lines for the stage in between."]},
 
- {t:"Hand touch",c:"Attention",w:"At home",s:"MDDTC · week 2",check:"Standard method — check the club's 'Hand Touch' handout for Rachel's steps.",
-  task:"Hold a flat hand a few inches from his nose. The instant his nose touches it, click and reward. Move your hand to a new spot and repeat.",
-  tips:["Once it is solid it moves him around without any lead pressure.","A good emergency recall for the last few feet."]},
+ {t:"Turn and go the other way",c:"Lead",w:"Anywhere",s:"MDDTC \u00b7 week 3",check:"Standard version \u2014 the method was covered in the hall, so check your notes.",
+  task:"Walking on lead, say 'this way' brightly, then turn and walk the other way. Feed him at your side as he catches up. Ten turns up and down the garden.",
+  tips:["Say it before you turn, not after.","The point is being able to turn him away from something without hauling on the lead."]},
 
- {t:"Recall practice",c:"Recall",w:"Out and about",s:"MDDTC · week 3",check:"Standard method — the club's 'Recall' handout has the full version.",
-  task:"Call him back, pay him well, release him again. He doesn't need lots of off-lead exercise at this age — just enough to practise coming back.",
-  tips:["Never call him to do something he dislikes.","Pay every recall while he is young. This is the one to over-reward."]},
+ {t:"Tuggy with two identical toys",c:"Games",w:"At home",s:"MDDTC \u00b7 week 3",
+  task:"Take two of the same toy. Play tug with one. When he's committed, go completely still and bring the second toy to life on the floor. As he lets go of the first, start the game again with the second.",
+  tips:["Two of the same means the one in your hand is always the interesting one.","Restarting the game is the reward for letting go \u2014 you don't need to say anything."]},
 
- {t:"The set-up procedure",c:"Recall",w:"Out and about",s:"MDDTC · week 3",
-  task:"Sit = feed. Lead off with him still sitting = feed. Sometimes lead back on = feed. Sometimes tell him to go and play.",
-  tips:["Mixing what comes next stops him predicting that lead-off always means freedom.","Ask about long lines — Rachel covers their benefits in class."]},
+ {t:"Wait for him to offer a sit",c:"Attention",w:"At home",s:"MDDTC \u00b7 week 3",
+  task:"Stand holding his food bowl and say nothing at all. The second he sits, or looks up at your face, mark it and put the bowl down. Do the same at the back door.",
+  tips:["Staying silent is the exercise. Wait him out rather than cueing him.","Offered eye contact is the best thing he can give you. Pay it every single time."]},
 
- {t:"This way",c:"Lead",w:"Anywhere",s:"MDDTC · week 3",check:"Method covered in the hall — fill in from your notes.",
-  task:"Keep practising 'this way' — it gets used in class when the pups say hello to each other.",
-  tips:["The point is turning him away from something without hauling on the lead."]},
+ {t:"Swap what's in his mouth",c:"Games",w:"At home",s:"MDDTC \u00b7 week 4",
+  task:"When he has a toy, show him a treat or a second toy and make it interesting. As he drops the first, say nothing, hand over the swap, then give the original back.",
+  tips:["Give it back most times, so a swap never means losing things.","Never chase him for it.","Handout: 'Swapping Game'."]},
 
- {t:"Two-toy tuggy",c:"Games",w:"At home",s:"MDDTC · week 3",
-  task:"Two identical toys, something you and he can both hold. Play tuggy with one, then bring the second to life so he swaps onto it.",
-  tips:["Two of the same means the one in your hand is always the interesting one.","Restarting the game is the reward for letting go."]},
+ {t:"Hold eye contact for longer",c:"Attention",w:"Anywhere",s:"MDDTC \u00b7 week 4",check:"Duration work is from the email; the handout has the full build-up.",
+  task:"Wait for him to look at your face. Count one second, then mark and feed. Next rep, count two. Build up to five seconds of steady eye contact.",
+  tips:["Pay him before he looks away, not after.","Handout: 'the watch part 1'."]},
 
- {t:"Catch the offered behaviour",c:"Attention",w:"At home",s:"MDDTC · week 3",
-  task:"He should be starting to offer what he's learned is rewarding without being asked — sitting before food, sitting before going outside, and best of all, offering eye contact. Pay it when he does.",
-  tips:["If it isn't happening yet, stay calm and consistent rather than adding more cues."]},
+ {t:"Stay sitting while you reach for food",c:"Manners",w:"At home",s:"MDDTC \u00b7 week 4",
+  task:"Put rewards on the worktop and ask him to sit at your side. Stretch out and pick one up. If he's still sitting, feed it to him. If he gets up, the food goes back and you ask for the sit again.",
+  tips:["Say nothing when he gets up. Putting the food back is the information.","This is the groundwork for both the stay and the leave."]},
 
- {t:"The swapping game",c:"Games",w:"At home",s:"MDDTC · week 4",
-  task:"Encourage him to bring you anything he has in his mouth. If you can't get him to drop it, swap it for another toy or a piece of food.",
-  tips:["Handout: 'Swapping Game'.","Never chase. Chasing teaches him that holding things makes you play."]},
+ {t:"Leave it in your closed fist",c:"Manners",w:"At home",s:"MDDTC \u00b7 week 5",check:"Standard method \u2014 the club's 'the leave' handout is the one to follow.",
+  task:"Hold a treat in a closed fist near his nose and keep absolutely still while he licks and paws at it. The instant he backs off or looks away, mark and feed him from your other hand.",
+  tips:["He never gets the treat from the hand he was working on.","Only add the word once he backs off straight away.","Handout: 'the leave'."]},
 
- {t:"The watch",c:"Attention",w:"Anywhere",s:"MDDTC · week 4",check:"Duration work is from the email; the handout 'the watch part 1' has the build-up.",
-  task:"Build up the length of time he will hold strong eye contact with you.",
-  tips:["Add a second at a time and pay before he looks away.","Easy at home first, then with something mildly distracting nearby."]},
+ {t:"Settle on a mat beside you",c:"Life skills",w:"At home",s:"MDDTC \u00b7 week 5",check:"Standard method \u2014 the club's 'The Settle' handout is the one to follow.",
+  task:"Put a mat by your chair and give him something to chew on it. Every so often, drop a treat between his front paws while he is lying still. Start with two minutes and build up.",
+  tips:["Reward him for being down, not for coming over to you.","End it yourself while he's still settled rather than waiting for him to get bored and wander off.","Handout: 'The Settle'."]},
 
- {t:"Stay, first steps",c:"Manners",w:"At home",s:"MDDTC · week 4",
-  task:"Put him in a sit with rewards on the worktop. Stand at his side as if crossing the road, stretch out and pick up one piece of food. If he stays sitting, he gets it. If he gets up, the food goes back and you ask for the sit again.",
-  tips:["Say nothing when he gets up — just reset. The food going back is the information.","This is the groundwork for 'leave' too."]},
+ {t:"Call him in when he's got something",c:"Games",w:"Anywhere",s:"MDDTC \u00b7 week 5",
+  task:"The moment he picks up something he shouldn't have, crouch down and call him happily. When he comes, stroke him and make a fuss for several seconds before you even look at the item, then swap it for a treat.",
+  tips:["Never chase. Chasing teaches him that holding things starts a game.","Grabbing at his mouth is what turns a sharer into a hider."]},
 
- {t:"The leave",c:"Manners",w:"At home",s:"MDDTC · week 5",check:"Standard method — the club's 'the leave' handout is the one to follow.",
-  task:"Food in a closed fist held still. The second he stops trying to get at it — backs off, looks away, looks at you — mark it and pay him from your other hand.",
-  tips:["He is never rewarded from the hand he was working on.","Only add the word once he is reliably backing off."]},
+ {t:"Wear the harness for a minute",c:"Lead",w:"At home",s:"MDDTC \u00b7 week 5",
+  task:"Put the harness or headcollar on, feed several treats, take it straight off. Repeat a few times, then leave it on for a minute while he eats or chews. Only walk in it once he ignores it completely.",
+  tips:["Rachel's preferred headcollar is a Gentle Leader: it doesn't ride up near the eyes, and if it comes off the nose it stays round the neck.","She uses Perfect Fit harnesses \u2014 fleece-edged, washable, three sections so any size combination fits. WARS at Deblins Green stock them and will fit one by appointment.","A front ring helps, but plenty of dogs learn to pull into a harness.","Skip this step and he'll walk with his head on the ground trying to rub it off."]},
 
- {t:"The settle",c:"Life skills",w:"At home",s:"MDDTC · week 5",check:"Standard method — the club's 'The Settle' handout is the one to follow.",
-  task:"On a mat or bed beside you, reward him quietly for lying down and staying there. Drop treats between his paws while he is settled rather than calling him up for them.",
-  tips:["Reward the calm, not the arrival. Pay him while he is lying still.","Build up from a minute at a time with something to chew."]},
+ {t:"Eat dinner in the crate",c:"Life skills",w:"At home",s:"MDDTC handout \u00b7 week 1",check:"Standard method \u2014 the club's 'Crate Training' handout is the one to follow.",
+  task:"Put his bowl at the back of the crate with the door hooked open, and sit nearby while he eats. Once he walks in happily, close the door for ten seconds while he finishes, then open it before he asks.",
+  tips:["Let him out while he is calm, not when he starts to complain.","The crate is a bedroom, never a punishment.","Handout: 'Crate Training'."]},
 
- {t:"Bring me your treasure",c:"Games",w:"Anywhere",s:"MDDTC · week 5",
-  task:"When he picks up something he shouldn't have, encourage him to you — never chase. When he comes, stroke him and make a fuss. Don't grab at whatever is in his mouth or he will stop sharing.",
-  tips:["Puppies will always pick things up. The aim is that he brings his treasures to show you.","Make it so good to bring things over that running off down the garden never occurs to him."]},
+ {t:"Breakfast out of a Kong",c:"Life skills",w:"At home",s:"MDDTC handout \u00b7 week 1",check:"Standard method \u2014 see the club's 'Food and Kongs' handout.",
+  task:"Put part of his breakfast into a Kong or onto a lick mat instead of the bowl. Start loose and easy so it takes him a couple of minutes. Pack it tighter and freeze it once he's good at it.",
+  tips:["Take his training treats out of the daily ration so he isn't overfed.","A pup working for his food is a pup being tired out.","Handout: 'Food and Kongs'."]},
 
- {t:"Getting used to the kit",c:"Lead",w:"At home",s:"MDDTC · week 5",
-  task:"Before walking in a headcollar or harness, put it on, give treats, take it off again. Build up the time he will wear it.",
-  tips:["Rachel's preferred headcollar is a Gentle Leader — it doesn't ride up near the eyes, and if it comes off the nose it stays round the neck.","She uses Perfect Fit harnesses: fleece-edged, washable, three sections so any size combination fits. WARS at Deblins Green stock them and will fit one by appointment.","Harnesses stop collar choking but many dogs learn to pull into them — a front ring helps.","Skip this step and he will walk with his head on the ground trying to rub it off."]},
+ {t:"Click, then treat, thirty times",c:"Attention",w:"At home",s:"MDDTC handout \u00b7 week 1",check:"Standard method \u2014 see 'puppy clicker training'.",
+  task:"Ask nothing of him at all. Click once, then give a treat. Wait a few seconds, click, treat. Thirty times in one sitting, so the sound comes to mean food is on its way.",
+  tips:["One click, never a volley.","Always follow a click with food, even one you pressed by mistake.","Handout: 'puppy clicker training'."]},
 
- {t:"Parvovirus watch",c:"Care",w:"Anywhere",s:"MDDTC · week 5",
-  task:"There has been a case of parvovirus in the area. Know the symptoms so you would spot them quickly — it is life threatening and only prompt action gives a pup a chance.",
-  tips:["Vomiting, bloody diarrhoea, lethargy, off food. Ring the vet straight away rather than waiting to see.","Keep away from spots where unknown dogs have toileted while it is about."]},
+ {t:"Say his name once",c:"Attention",w:"Anywhere",s:"MDDTC handout \u00b7 week 1",check:"Standard method \u2014 see the 'Reponse To Name' handout.",
+  task:"When he isn't looking at you, say his name once. The moment his head turns, mark and feed. Ten reps somewhere quiet, then try it in the garden.",
+  tips:["Never repeat it over and over, and never use it to tell him off.","His name means look at me. Come here is a separate cue.","Handout: 'Reponse To Name'."]},
 
- {t:"Crate training",c:"Life skills",w:"At home",s:"MDDTC handout · week 1",check:"Standard method — the club's 'Crate Training' handout is the one to follow.",
-  task:"Feed him in the crate with the door open, then start closing it for a few seconds at a time while he is eating or chewing. Let him out before he asks to come out.",
-  tips:["The crate is a bedroom, never a punishment.","Work up to leaving the room for a moment, then longer."]},
+ {t:"Run a five-minute circuit",c:"Manners",w:"Anywhere",s:"MDDTC handout \u00b7 week 3",check:"Method from the club's 'CIRCUIT TRAINING' handout \u2014 check the detail.",
+  task:"String together everything he knows: two sits, a down, a hand touch, a few steps of loose lead, a watch. Two rounds of that, paying well, then stop.",
+  tips:["Mixing the exercises keeps him guessing and builds fluency.","Finish while he still wants more.","Handout: 'CIRCUIT TRAINING'."]},
 
- {t:"Food and Kongs",c:"Life skills",w:"At home",s:"MDDTC handout · week 1",check:"Standard method — see the club's 'Food and Kongs' handout.",
-  task:"Put part of his daily food into Kongs, lick mats and scatter feeds rather than a bowl. Working for food is mentally tiring in a way a bowl isn't.",
-  tips:["Take training treats out of the daily ration so he isn't overfed.","Start easy: loose food, wide opening. Frozen and packed comes later."]},
+ {t:"Stop the game when teeth touch skin",c:"Handling",w:"At home",s:"MDDTC handout \u00b7 week 2",check:"Standard method \u2014 the club's 'PLAY BITING' handout is the one to follow.",
+  task:"Play with him. The moment teeth touch skin, stand up, fold your arms and look away for five seconds. Then crouch back down and carry on, with a toy in your hand instead of bare fingers.",
+  tips:["No telling off. The game stopping is the whole message.","Mouthing is at its worst when he's overtired \u2014 try a nap before you try training.","Handout: 'PLAY BITING'."]},
 
- {t:"Charging the clicker",c:"Attention",w:"At home",s:"MDDTC handout · week 1",check:"Standard method — see 'puppy clicker training'.",
-  task:"Click, then treat, twenty or thirty times with nothing asked of him, so the sound comes to mean food is on its way.",
-  tips:["The click marks the moment, the food pays for it. Always follow a click with food, even a mistaken one.","One click, not a volley."]},
+ {t:"Ears, paws, mouth, collar",c:"Handling",w:"At home",s:"MDDTC handout \u00b7 week 2",check:"Standard method \u2014 see the club's 'Handling' handout.",
+  task:"Once a day, spend a few seconds on each: look inside an ear, lift a lip, hold a paw, take hold of his collar, run both hands down his back. One treat after each.",
+  tips:["Stop before he wants you to.","This is what makes the vet and the groomer straightforward in a year's time.","Handout: 'Handling'."]},
 
- {t:"Timing and rate of reward",c:"Attention",w:"Anywhere",s:"MDDTC handout · week 1",check:"Standard method — see the 'Technical stuff!' handout.",
-  task:"Mark the exact instant the behaviour happens, not a second later. Early on, keep the rate high — lots of small rewards rather than a few big ones.",
-  tips:["If he is losing interest, your rate of reward is probably too low or the step too big.","Finish while he still wants more."]},
+ {t:"Take him out and pay him outside",c:"Life skills",w:"At home",s:"Extra \u00b7 general practice",
+  task:"Out after waking, after eating, after play, and every hour or so between. Go with him, stay quiet and still, and feed him the moment he finishes \u2014 outside, not once you're back in the kitchen.",
+  tips:["Rewarding him indoors afterwards teaches him nothing about where to go.","Accidents get cleaned up with an enzyme cleaner and no comment."]},
 
- {t:"Response to name",c:"Attention",w:"Anywhere",s:"MDDTC handout · week 1",check:"Standard method — see the 'Reponse To Name' handout.",
-  task:"Say his name once. The moment his head turns, mark and pay. Never repeat it over and over, and never use it to tell him off.",
-  tips:["Practise in easy places first, then somewhere more interesting.","His name means 'look at me', not 'come here' — that's a separate cue."]},
+ {t:"Leave the room for thirty seconds",c:"Life skills",w:"At home",s:"Extra \u00b7 general practice",
+  task:"Settle him with a chew, walk out and shut the door behind you. Come back after ten seconds, while he's still calm, and say nothing. Build up to a few minutes.",
+  tips:["Always go back before he starts to worry.","Vary it: sometimes the kettle, sometimes coat on, out the front door and straight back in."]},
 
- {t:"Circuit training",c:"Manners",w:"Anywhere",s:"MDDTC handout · week 3",check:"Method from the club's 'CIRCUIT TRAINING' handout — check the detail.",
-  task:"Run a short circuit of everything he knows — sit, down, hand touch, watch, a few steps of loose lead — a few reps each, then stop.",
-  tips:["Mixing exercises keeps him guessing and builds fluency.","Five minutes is plenty."]},
+ {t:"Sit and watch the world go by",c:"Life skills",w:"Out and about",s:"Extra \u00b7 general practice",
+  task:"Find a bench near a road, a school gate or a row of shops. Sit with him for five minutes and feed him for watching things calmly, and again for looking back at you.",
+  tips:["Watching from a distance counts as a win. Going closer is optional and it's his choice.","One good session beats five overwhelming ones."]},
 
- {t:"How much exercise",c:"Care",w:"Out and about",s:"MDDTC handout · week 3 + Kennel Club",
-  task:"Keep formal exercise short while he is growing. The usual rule of thumb is five minutes per month of age, up to twice a day, until he is fully grown.",
-  tips:["The Kennel Club and PDSA both give the five-minutes-per-month figure: 15 minutes at three months, 20 at four.","Free mooching and sniffing is not the same as forced-pace walking — it's the repetitive, fast stuff that needs limiting.","Sniffing is tiring. Ten minutes of nose work can do more than a mile."]},
+ {t:"Feed him in the parked car",c:"Life skills",w:"Out and about",s:"Extra \u00b7 general practice",
+  task:"Engine off, boot or back door open. Put him in, feed a few treats, lift him out. Next time, the same with the engine running. Then a two-minute drive to somewhere good.",
+  tips:["If every car journey ends at the vet, the car becomes the vet.","Build this before the first long trip, not during it."]},
 
- {t:"Play biting",c:"Handling",w:"At home",s:"MDDTC handout · week 2",check:"Standard method — the club's 'PLAY BITING' handout is the one to follow.",
-  task:"When teeth touch skin, the game stops: stand up, hands away, no telling off. Restart a few seconds later, redirecting onto a toy.",
-  tips:["Mouthing is normal and it passes. Consistency shortens it.","Most biting is worst when he is overtired — try a nap before you try training."]},
+ {t:"Take his collar, then treat",c:"Games",w:"At home",s:"Extra \u00b7 general practice",
+  task:"Slip two fingers under his collar, give a treat immediately, let go. Five times a day, in different rooms, at odd moments when nothing else is happening.",
+  tips:["The day you need to grab him in a hurry, the grab should mean food.","Pair it with the recall: comes in, collar held, treat, released again."]},
 
- {t:"Handling practice",c:"Handling",w:"At home",s:"MDDTC handout · week 2",check:"Standard method — see the club's 'Handling' handout.",
-  task:"A few seconds a day on each area: ears, mouth, paws, tail, collar, a quick all-over run of the hands. Treat after each one.",
-  tips:["Stop before he wants to stop.","This is what makes the vet and groomer easy later."]},
+ {t:"Walk him over something new underfoot",c:"Life skills",w:"Anywhere",s:"Extra \u00b7 general practice",
+  task:"Put something odd on the floor \u2014 a cushion, a baking tray, a plank on the grass. Scatter treats on and around it and let him work out how to get them. No luring, no lifting him on.",
+  tips:["Let him take his time. Confidence about footing now means fewer refusals on vet tables and stairs later."]},
 
- {t:"Toilet routine",c:"Life skills",w:"At home",s:"Extra · general practice",
-  task:"Out after waking, after eating, after play, and every hour or so between. Go with him, stay quiet, and pay him outside the moment he finishes.",
-  tips:["Reward outdoors, not back in the kitchen — he needs to know what earned it.","Accidents indoors get cleaned with an enzyme cleaner and no comment."]},
+ {t:"A thirty-second vet check",c:"Handling",w:"At home",s:"Extra \u00b7 general practice",
+  task:"Lift him onto a table with a towel on it. Look in both ears, lift a lip, hold each paw, run a hand down his back and tail, feeding throughout. Lift him down and stop.",
+  tips:["Do it when nothing is wrong, so it stays neutral.","Thirty seconds is plenty."]},
 
- {t:"Time alone",c:"Life skills",w:"At home",s:"Extra · general practice",
-  task:"Leave him settled with something to chew, go out of the room, come back before he is worried. Seconds at first, then minutes.",
-  tips:["Come back while he is still calm, so leaving never predicts panic.","Vary it — sometimes you go to the kettle, sometimes to the front door and back."]},
+ {t:"Drop something better in his bowl",c:"Handling",w:"At home",s:"Extra \u00b7 general practice",
+  task:"While he's eating, walk past and drop a piece of chicken into the bowl without breaking stride. Twice a week is enough.",
+  tips:["A hand near his food should predict more food arriving.","Never take the bowl away to prove a point. If he stiffens or goes quiet over food, stop and ask Rachel."]},
 
- {t:"Socialisation, little and often",c:"Life skills",w:"Out and about",s:"Extra · general practice",
-  task:"New sights and sounds in small doses: traffic, bins, hats, sticks, umbrellas, children at a distance. Let him look, then pay him for looking back at you.",
-  tips:["Let him approach in his own time — never lure or carry him into something that worries him.","Watching calmly from a distance counts as a win. Going closer is optional.","Quality over quantity. One good experience beats five overwhelming ones."]},
+ {t:"Send him for a nap before he tips over",c:"Life skills",w:"At home",s:"Extra \u00b7 general practice",
+  task:"When he goes frantic, bitey and deaf to everything, stop training. Put him in the crate or pen with a chew and leave him to sleep it off.",
+  tips:["Overtired looks exactly like naughty.","Protect his daytime sleep as carefully as you protect the training time."]},
 
- {t:"Car travel",c:"Life skills",w:"Out and about",s:"Extra · general practice",
-  task:"Feed him in the stationary car with the engine off, then with it running, then a two-minute drive to somewhere good.",
-  tips:["If every car trip ends at the vet, the car becomes the vet.","Build up before the first long journey, not during it."]},
+ {t:"The door opens when he sits",c:"Manners",w:"At home",s:"Extra \u00b7 general practice",
+  task:"Hand on the back door handle. If he sits, start opening it. If he gets up, close it again. Repeat until he sits and holds it, then let him out \u2014 the open door is the reward.",
+  tips:["No cue needed. Let him work out what makes the door open.","Works the same way on the front door, the car boot and the crate."]},
 
- {t:"Collar grab game",c:"Games",w:"At home",s:"Extra · general practice",
-  task:"Take hold of his collar, immediately give a treat, let go. Repeat a handful of times a day in different places.",
-  tips:["The day you need to grab him in a hurry, the grab should mean food and not trouble.","Pair with the recall: come in, collar hold, treat, release."]},
+ {t:"Three seconds, then call him away",c:"Recall",w:"Out and about",s:"Extra \u00b7 general practice",
+  task:"When he greets another dog, count three seconds, then call him to you and pay him well. Then decide whether to go back for more.",
+  tips:["Long greetings are where most pups tip over into rude or overwhelmed.","Calling him out of something good is the recall practice that actually counts."]},
 
- {t:"Surfaces and wobbles",c:"Life skills",w:"Anywhere",s:"Extra · general practice",
-  task:"Metal grates, gravel, wet grass, a cushion on the floor, a plank on the lawn. Let him work out each one with treats scattered on it.",
-  tips:["Confidence with footing now means fewer refusals at vet tables and stairs later."]},
+ {t:"Teach it again in the front garden",c:"Attention",w:"Out and about",s:"Extra \u00b7 general practice",
+  task:"Pick one thing he's solid on indoors \u2014 sit, his name, a hand touch \u2014 and run it in the front garden. Then on the pavement. Then in a car park. Go back to the easiest version in each new place.",
+  tips:["He isn't being stubborn. Dogs don't generalise the way we assume they do.","Pay better in harder places."]}
 
- {t:"Mock vet exam",c:"Handling",w:"At home",s:"Extra · general practice",
-  task:"Lift him onto a table or worktop with a towel down, look in his ears, lift a lip, hold a paw, run a hand down his back. Treat throughout, then lift him down.",
-  tips:["Thirty seconds is plenty.","Do it when nothing is wrong, so it stays neutral."]},
-
- {t:"Adding to the bowl",c:"Handling",w:"At home",s:"Extra · general practice",
-  task:"While he is eating, walk past and drop something better into the bowl. Never take the bowl away to prove a point.",
-  tips:["He should learn that a hand near his food means more food arrives.","If he stiffens or goes quiet over food, stop and ask Rachel rather than pushing on."]},
-
- {t:"Sleep and the zoomies",c:"Care",w:"At home",s:"Extra · general practice",
-  task:"A puppy this age needs a lot of sleep. When he gets frantic, bitey and deaf to cues, try a nap in the crate before you try more training.",
-  tips:["Overtired looks exactly like naughty.","Protect the daytime sleep as carefully as you protect the training time."]},
-
- {t:"Doorways",c:"Manners",w:"At home",s:"Extra · general practice",
-  task:"Hand on the door handle: if he sits, the door opens. If he gets up, the door closes. The opening door is the reward.",
-  tips:["Works on the back door, the front door, the car boot and the crate.","No cue needed at first — let him work out what opens it."]},
-
- {t:"Three-second hello",c:"Recall",w:"Out and about",s:"Extra · general practice",
-  task:"Let him greet another dog for about three seconds, then call him away and pay well. Greetings stay short and end on your terms.",
-  tips:["Long greetings are where most pups tip into rude or overwhelmed.","Calling him out of something good and paying him is the recall practice that matters."]},
-
- {t:"Proofing in new places",c:"Attention",w:"Out and about",s:"Extra · general practice",
-  task:"Everything he knows at home needs teaching again in the garden, on the pavement, and in the car park. Go back to easy steps in each new place.",
-  tips:["He isn't being stubborn — dogs don't generalise the way we assume.","Pay better in harder places."]}
 ];
 
-/* ---------- state ------------------------------------------------------- */
-const KEY='cue.v1';
-let state={counts:{},today:0,day:new Date().toDateString()};
+/* ---------- storage ------------------------------------------------------
+   Built-in cards keep their identity by position, so add new ones to the end
+   of DECK rather than the middle. Your edits, additions and deletions live in
+   localStorage as a layer on top; "Restore built-in cards" clears that layer. */
+BUILTIN.forEach(function(c,i){c.id='b'+i;});
+
+const KEY='cue.v2';
+let store={counts:{},ov:{},del:[],custom:[]};
 try{
   const raw=localStorage.getItem(KEY);
-  if(raw){const s=JSON.parse(raw);if(s&&typeof s==='object'){state=Object.assign(state,s);}}
+  if(raw){
+    const s=JSON.parse(raw);
+    if(s&&typeof s==='object'){
+      store.counts=s.counts||{};store.ov=s.ov||{};store.del=s.del||[];store.custom=s.custom||[];
+    }
+  }else{
+    const old=localStorage.getItem('cue.v1');   /* carry over counts kept by title */
+    if(old){
+      const o=JSON.parse(old)||{};
+      Object.keys(o.counts||{}).forEach(function(title){
+        const hit=BUILTIN.filter(function(c){return c.t===title;})[0];
+        if(hit)store.counts[hit.id]=o.counts[title];
+      });
+    }
+  }
 }catch(e){}
-if(state.day!==new Date().toDateString()){state.day=new Date().toDateString();state.today=0;}
-function save(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(store));}catch(e){}}
+
+let today=0;
+
+/* ---------- the deck, after your edits ---------------------------------- */
+function cards(){
+  const out=[];
+  BUILTIN.forEach(function(c){
+    if(store.del.indexOf(c.id)>-1)return;
+    const o=store.ov[c.id];
+    out.push(o?Object.assign({},c,o):c);
+  });
+  store.custom.forEach(function(c){out.push(c);});
+  return out;
+}
+function isClub(c){return String(c.s||'').indexOf('MDDTC')===0;}
+function byId(id){return cards().filter(function(c){return c.id===id;})[0]||null;}
 
 let filter={where:'All',set:'All'};
-let bag=[],current=null,listOpen=false;
+function pool(){
+  return cards().filter(function(c){
+    const okWhere=filter.where==='All'||c.w===filter.where||c.w==='Anywhere';
+    const okSet=filter.set==='All'||(filter.set==='Club'?isClub(c):!isClub(c));
+    return okWhere&&okSet;
+  });
+}
 
-/* ---------- filters ----------------------------------------------------- */
+/* ---------- view state -------------------------------------------------- */
+let view='cards';           /* cards | manage | edit */
+let bag=[],current=null,editing=null,isNew=false;
+
+const el=function(id){return document.getElementById(id);};
+const cardEl=el('card');
+
+/* ---------- tabs and filters -------------------------------------------- */
 const FILTERS=[
   {g:'where',v:'All',label:'All cards'},
   {g:'where',v:'At home',label:'At home'},
@@ -385,156 +475,306 @@ const FILTERS=[
   {g:'set',v:'Club',label:'Club only'},
   {g:'set',v:'Extras',label:'Extras only'}
 ];
-const filtersEl=document.getElementById('filters');
-FILTERS.forEach(f=>{
+FILTERS.forEach(function(f){
   const b=document.createElement('button');
-  b.className='chip';b.textContent=f.label;b.setAttribute('aria-pressed','false');
-  b.onclick=()=>{
-    if(f.g==='where'){filter.where=(filter.where===f.v&&f.v!=='All')?'All':f.v;}
-    else{filter.set=(filter.set===f.v)?'All':f.v;}
-    refresh();
+  b.className='chip';b.type='button';b.textContent=f.label;
+  b.onclick=function(ev){
+    if(f.g==='where')filter.where=(filter.where===f.v&&f.v!=='All')?'All':f.v;
+    else filter.set=(filter.set===f.v)?'All':f.v;
+    bag=[];draw();
+    ev.currentTarget.blur();
   };
-  f.el=b;filtersEl.appendChild(b);
+  f.el=b;el('filters').appendChild(b);
 });
-const listBtn=document.createElement('button');
-listBtn.className='chip';listBtn.textContent='All exercises';listBtn.setAttribute('aria-pressed','false');
-listBtn.onclick=()=>{listOpen=!listOpen;refresh();};
-filtersEl.appendChild(listBtn);
 
-function pool(){
-  return DECK.filter(c=>{
-    const okWhere = filter.where==='All' || c.w===filter.where || c.w==='Anywhere';
-    const isExtra = c.s.indexOf('Extra')===0;
-    const okSet = filter.set==='All' || (filter.set==='Extras'?isExtra:!isExtra);
-    return okWhere && okSet;
-  });
+el('tabCards').onclick=function(ev){go('cards');ev.currentTarget.blur();};
+el('tabManage').onclick=function(ev){go('manage');ev.currentTarget.blur();};
+
+function go(v){
+  view=v;
+  if(v==='cards'&&!current)draw();else render();
 }
 
-/* ---------- drawing ----------------------------------------------------- */
+/* ---------- one place that paints the chrome ---------------------------- */
+function syncChrome(){
+  el('tabCards').setAttribute('aria-selected',String(view==='cards'));
+  el('tabManage').setAttribute('aria-selected',String(view!=='cards'));
+  FILTERS.forEach(function(f){
+    f.el.setAttribute('aria-pressed',String(filter[f.g]===f.v));
+  });
+  el('filters').style.display=view==='cards'?'flex':'none';
+  el('viewCards').classList.toggle('on',view==='cards');
+  el('viewManage').classList.toggle('on',view==='manage');
+  el('viewEdit').classList.toggle('on',view==='edit');
+
+  const total=Object.keys(store.counts).reduce(function(n,k){return n+store.counts[k];},0);
+  el('tally').textContent=today+' today · '+total+' all time';
+  const all=cards().length,mine=store.custom.length;
+  el('foot').textContent=view==='cards'
+    ? pool().length+' cards in this deck'
+    : all+' cards'+(mine?', '+mine+' of them yours':'');
+}
+
+/* ---------- drawing cards ----------------------------------------------- */
 function draw(){
   const p=pool();
   if(!p.length){current=null;render();return;}
-  bag=bag.filter(c=>p.indexOf(c)>-1);
+  const ids=p.map(function(c){return c.id;});
+  bag=bag.filter(function(id){return ids.indexOf(id)>-1;});
   if(!bag.length){
-    bag=p.slice();
-    for(let i=bag.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[bag[i],bag[j]]=[bag[j],bag[i]];}
-    if(bag.length>1&&bag[0]===current)bag.push(bag.shift());
+    bag=ids.slice();
+    for(let i=bag.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));const t=bag[i];bag[i]=bag[j];bag[j]=t;}
+    if(bag.length>1&&current&&bag[bag.length-1]===current.id)bag.unshift(bag.pop());
   }
-  current=bag.pop();
+  current=byId(bag.pop());
   cardEl.classList.remove('flipped');
   render();
 }
-
-const cardEl=document.getElementById('card');
-function tag(text,cls){const s=document.createElement('span');s.className='tag'+(cls?' '+cls:'');s.textContent=text;return s;}
-
-function render(){
-  FILTERS.forEach(f=>f.el.setAttribute('aria-pressed',String(filter[f.g]===f.v)));
-  listBtn.setAttribute('aria-pressed',String(listOpen));
-  document.getElementById('stage').classList.toggle('off',listOpen);
-  document.getElementById('bar').classList.toggle('off',listOpen);
-  document.getElementById('list').classList.toggle('on',listOpen);
-
-  const total=Object.keys(state.counts).reduce((n,k)=>n+state.counts[k],0);
-  document.getElementById('tally').textContent=state.today+' today · '+total+' all time';
-  document.getElementById('foot').textContent=pool().length+' cards in this deck. ';
-
-  const fm=document.getElementById('frontMeta'),bm=document.getElementById('backMeta');
+function tag(text,cls){
+  const s=document.createElement('span');
+  s.className='tag'+(cls?' '+cls:'');s.textContent=text;return s;
+}
+function renderCard(){
+  const fm=el('frontMeta'),bm=el('backMeta');
   fm.textContent='';bm.textContent='';
   if(!current){
-    document.getElementById('frontTitle').textContent='No cards match';
-    document.getElementById('task').textContent='Clear a filter to bring cards back.';
-    document.getElementById('tips').textContent='';
-    document.getElementById('src').textContent='';
+    el('frontTitle').textContent='No cards match';
+    el('backTitle').textContent='No cards match';
+    el('task').textContent='Clear a filter to bring cards back.';
+    el('tips').textContent='';el('tipHead').hidden=true;el('src').textContent='';
     return;
   }
-  const c=current;
-  const isExtra=c.s.indexOf('Extra')===0;
-  [fm,bm].forEach(m=>{
+  const c=current,extra=!isClub(c);
+  [fm,bm].forEach(function(m){
     m.appendChild(tag(c.w,'where'));
     m.appendChild(tag(c.c));
-    if(isExtra)m.appendChild(tag('Extra','extra'));
+    if(extra)m.appendChild(tag(c.id.charAt(0)==='c'?'Mine':'Extra','extra'));
   });
-  document.getElementById('frontTitle').textContent=c.t;
-  document.getElementById('backTitle').textContent=c.t;
-  document.getElementById('task').textContent=c.task;
-  const tips=document.getElementById('tips');tips.textContent='';
-  (c.tips||[]).forEach(t=>{const li=document.createElement('li');li.textContent=t;tips.appendChild(li);});
-  document.getElementById('tipHead').hidden=!(c.tips&&c.tips.length);
-  const src=document.getElementById('src');src.textContent='';
-  src.appendChild(document.createTextNode(c.s));
-  const n=state.counts[c.t]||0;
+  el('frontTitle').textContent=c.t;
+  el('backTitle').textContent=c.t;
+  el('task').textContent=c.task;
+  const tips=el('tips');tips.textContent='';
+  (c.tips||[]).forEach(function(t){const li=document.createElement('li');li.textContent=t;tips.appendChild(li);});
+  el('tipHead').hidden=!(c.tips&&c.tips.length);
+  const src=el('src');src.textContent='';
+  src.appendChild(document.createTextNode(c.s||''));
+  const n=store.counts[c.id]||0;
   if(n)src.appendChild(document.createTextNode(' · practised '+n+(n===1?' time':' times')));
   if(c.check){
     src.appendChild(document.createElement('br'));
     const em=document.createElement('span');em.className='checkme';em.textContent=c.check;
     src.appendChild(em);
   }
-  buildList();
 }
 
-function buildList(){
-  const el=document.getElementById('list');
-  if(!listOpen){el.textContent='';return;}
-  el.textContent='';
-  const groups={};
-  pool().forEach(c=>{(groups[c.c]=groups[c.c]||[]).push(c);});
-  Object.keys(groups).forEach(g=>{
-    const h=document.createElement('div');h.className='group';h.textContent=g;el.appendChild(h);
-    groups[g].forEach(c=>{
-      const b=document.createElement('button');b.className='row';
-      const box=document.createElement('span');
-      const strong=document.createElement('b');strong.textContent=c.t;
-      const small=document.createElement('small');small.textContent=' '+c.w+' · '+c.s;
-      box.appendChild(strong);box.appendChild(document.createElement('br'));box.appendChild(small);
-      b.appendChild(box);
-      const n=state.counts[c.t]||0;
+/* ---------- the list ---------------------------------------------------- */
+function renderRows(){
+  const wrap=el('rows');wrap.textContent='';
+  const q=el('search').value.trim().toLowerCase();
+  const list=cards().filter(function(c){
+    if(!q)return true;
+    return (c.t+' '+c.c+' '+c.s+' '+c.task+' '+(c.tips||[]).join(' ')).toLowerCase().indexOf(q)>-1;
+  });
+  if(!list.length){
+    const p=document.createElement('p');p.className='empty';
+    p.textContent=q?'Nothing matches “'+el('search').value.trim()+'”.':'No cards yet. Add one with New card.';
+    wrap.appendChild(p);return;
+  }
+  const groups={},order=[];
+  list.forEach(function(c){
+    if(!groups[c.c]){groups[c.c]=[];order.push(c.c);}
+    groups[c.c].push(c);
+  });
+  order.forEach(function(g){
+    const h=document.createElement('div');h.className='group';h.textContent=g;wrap.appendChild(h);
+    groups[g].forEach(function(c){
+      const row=document.createElement('div');row.className='row';
+      const open=document.createElement('button');open.type='button';open.className='open';
+      const b=document.createElement('b');b.textContent=c.t;
+      const s=document.createElement('small');
+      s.textContent=c.w+' · '+(c.s||'')+(store.ov[c.id]?' · edited':'');
+      open.appendChild(b);open.appendChild(s);
+      open.onclick=function(){current=c;view='cards';cardEl.classList.add('flipped');render();};
+      const n=store.counts[c.id]||0;
       const cnt=document.createElement('span');cnt.className='count';cnt.textContent=n?'×'+n:'';
-      b.appendChild(cnt);
-      b.onclick=()=>{current=c;listOpen=false;cardEl.classList.add('flipped');render();};
-      el.appendChild(b);
+      const ed=document.createElement('button');ed.type='button';ed.className='edit';ed.textContent='Edit';
+      ed.onclick=function(){openEditor(c);};
+      row.appendChild(open);row.appendChild(cnt);row.appendChild(ed);
+      wrap.appendChild(row);
     });
   });
+  const tools=document.createElement('div');tools.className='tools';
+  [['Copy all cards as JSON',copyJSON],
+   ['Paste cards from JSON',pasteJSON],
+   ['Reset practice counts',function(){
+     if(confirm('Clear every practice count?')){store.counts={};today=0;save();render();}
+   }],
+   ['Restore built-in cards',function(){
+     if(confirm('Undo your edits and deletions of the built-in cards? Cards you added are kept.')){
+       store.ov={};store.del=[];save();render();
+     }
+   }]].forEach(function(pair){
+    const b=document.createElement('button');b.type='button';b.textContent=pair[0];b.onclick=pair[1];
+    tools.appendChild(b);
+  });
+  wrap.appendChild(tools);
+  const say=document.createElement('p');say.className='say';say.id='listSay';wrap.appendChild(say);
+}
+el('search').oninput=function(){if(view==='manage')renderRows();};
+el('newCard').onclick=function(ev){openEditor(null);ev.currentTarget.blur();};
+
+/* ---------- create, update, delete -------------------------------------- */
+function openEditor(c){
+  isNew=!c;editing=c;
+  el('editHead').textContent=isNew?'New card':'Edit card';
+  el('e_t').value=c?c.t:'';
+  el('e_task').value=c?c.task:'';
+  el('e_tips').value=c&&c.tips?c.tips.join('\n'):'';
+  el('e_c').value=c?c.c:'';
+  el('e_w').value=c?c.w:'At home';
+  el('e_s').value=c?(c.s||''):'Mine';
+  el('e_check').value=c&&c.check?c.check:'';
+  el('deleteWrap').style.display=isNew?'none':'flex';
+  el('editSay').textContent='';
+  const dl=el('cats');dl.textContent='';
+  const seen={};
+  cards().forEach(function(x){
+    if(seen[x.c])return;seen[x.c]=1;
+    const o=document.createElement('option');o.value=x.c;dl.appendChild(o);
+  });
+  view='edit';render();
+  el('viewEdit').scrollTop=0;
+}
+el('editCancel').onclick=function(){view='manage';render();};
+el('editSave').onclick=function(){
+  const t=el('e_t').value.trim(),task=el('e_task').value.trim();
+  if(!t||!task){el('editSay').textContent='A card needs a title and something to do.';return;}
+  const data={
+    t:t,task:task,
+    tips:el('e_tips').value.split('\n').map(function(s){return s.trim();}).filter(Boolean),
+    c:el('e_c').value.trim()||'Uncategorised',
+    w:el('e_w').value,
+    s:el('e_s').value.trim()||'Mine',
+    check:el('e_check').value.trim()
+  };
+  if(!data.check)delete data.check;
+  if(isNew){
+    data.id='c'+Date.now().toString(36);
+    store.custom.push(data);
+  }else if(editing.id.charAt(0)==='b'){
+    store.ov[editing.id]=data;
+  }else{
+    for(let i=0;i<store.custom.length;i++){
+      if(store.custom[i].id===editing.id){data.id=editing.id;store.custom[i]=data;break;}
+    }
+  }
+  save();
+  if(current&&editing&&current.id===editing.id)current=byId(editing.id);
+  view='manage';render();
+};
+el('editDelete').onclick=function(){
+  if(!editing)return;
+  if(!confirm('Delete “'+editing.t+'”?'))return;
+  if(editing.id.charAt(0)==='b'){
+    if(store.del.indexOf(editing.id)<0)store.del.push(editing.id);
+    delete store.ov[editing.id];
+  }else{
+    store.custom=store.custom.filter(function(x){return x.id!==editing.id;});
+  }
+  delete store.counts[editing.id];
+  if(current&&current.id===editing.id)current=null;
+  bag=[];save();view='manage';render();
+};
+
+/* ---------- moving cards in and out ------------------------------------- */
+function deckJSON(){
+  return JSON.stringify(cards().map(function(c){
+    const o={t:c.t,c:c.c,w:c.w,s:c.s,task:c.task,tips:c.tips||[]};
+    if(c.check)o.check=c.check;
+    return o;
+  }),null,1);
+}
+function tell(msg){
+  const s=el('listSay');if(s)s.textContent=msg;
+}
+function copyJSON(){
+  const text=deckJSON();
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(function(){
+      tell('Copied. Paste it over the DECK list in the file to make it permanent.');
+    },function(){fallbackCopy(text);});
+  }else fallbackCopy(text);
+}
+function fallbackCopy(text){
+  const ta=document.createElement('textarea');
+  ta.value=text;ta.style.position='fixed';ta.style.opacity='0';
+  document.body.appendChild(ta);ta.select();
+  try{document.execCommand('copy');tell('Copied to the clipboard.');}
+  catch(e){tell('Could not copy automatically.');}
+  document.body.removeChild(ta);
+}
+function pasteJSON(){
+  const text=prompt('Paste a list of cards as JSON. This replaces every card on this device.');
+  if(!text)return;
+  let arr;
+  try{arr=JSON.parse(text);}catch(e){tell('That is not valid JSON.');return;}
+  if(!Array.isArray(arr)||!arr.length){tell('Expected a list of cards.');return;}
+  const ok=arr.every(function(c){return c&&c.t&&c.task;});
+  if(!ok){tell('Every card needs a title and a task.');return;}
+  if(!confirm('Replace all '+cards().length+' cards with these '+arr.length+'?'))return;
+  store.del=BUILTIN.map(function(c){return c.id;});
+  store.ov={};
+  store.custom=arr.map(function(c,i){
+    return {id:'c'+Date.now().toString(36)+i,t:c.t,c:c.c||'Uncategorised',w:c.w||'Anywhere',
+            s:c.s||'Imported',task:c.task,tips:c.tips||[],check:c.check};
+  });
+  bag=[];current=null;save();render();
+  tell('Loaded '+arr.length+' cards.');
+}
+
+/* ---------- render ------------------------------------------------------ */
+function render(){
+  syncChrome();
+  if(view==='cards')renderCard();
+  if(view==='manage')renderRows();
 }
 
 /* ---------- actions ----------------------------------------------------- */
-function refresh(){bag=[];draw();}
-cardEl.onclick=()=>cardEl.classList.toggle('flipped');
-document.getElementById('flip').onclick=()=>cardEl.classList.toggle('flipped');
-document.getElementById('skip').onclick=draw;
-document.getElementById('done').onclick=()=>{
-  if(current){state.counts[current.t]=(state.counts[current.t]||0)+1;state.today++;save();}
-  draw();
+cardEl.onclick=function(){cardEl.classList.toggle('flipped');};
+el('flip').onclick=function(ev){cardEl.classList.toggle('flipped');ev.currentTarget.blur();};
+el('skip').onclick=function(ev){draw();ev.currentTarget.blur();};
+el('done').onclick=function(ev){
+  if(current){store.counts[current.id]=(store.counts[current.id]||0)+1;today++;save();}
+  draw();ev.currentTarget.blur();
 };
-document.getElementById('reset').onclick=()=>{
-  state.counts={};state.today=0;save();render();
-};
-document.addEventListener('keydown',e=>{
+document.addEventListener('keydown',function(e){
+  if(view!=='cards')return;
+  const t=e.target.tagName;
+  if(t==='INPUT'||t==='TEXTAREA'||t==='SELECT')return;
   if(e.key===' '){e.preventDefault();cardEl.classList.toggle('flipped');}
   if(e.key==='ArrowRight')draw();
 });
 let x0=null;
-cardEl.addEventListener('touchstart',e=>{x0=e.touches[0].clientX;},{passive:true});
-cardEl.addEventListener('touchend',e=>{
+cardEl.addEventListener('touchstart',function(e){x0=e.touches[0].clientX;},{passive:true});
+cardEl.addEventListener('touchend',function(e){
   if(x0===null)return;
   const dx=e.changedTouches[0].clientX-x0;x0=null;
   if(Math.abs(dx)>60)draw();
 },{passive:true});
 
-/* ---------- installable, single file ------------------------------------ */
-/* Icons are baked in as data URIs above; the manifest reuses them so the app
-   installs with a real icon on Android and iOS without a second file. */
+/* ---------- installable, single file ------------------------------------
+   The icons are baked into the head as data URIs; the manifest points at the
+   same ones so the app installs properly from a single file. */
 (function(){
-  const links=document.querySelectorAll('link[rel="apple-touch-icon"]');
-  const small=links.length?links[0].getAttribute('href'):'';
-  const large=(document.querySelector('link[rel="icon"][sizes="512x512"]')||{getAttribute:function(){return small;}}).getAttribute('href');
+  const small=(document.querySelector('link[rel="apple-touch-icon"]')||{}).href||'';
+  const big=(document.querySelector('link[rel="icon"][sizes="512x512"]')||{}).href||small;
   const manifest={
     name:'Cue \u2014 puppy training cards',short_name:'Cue',start_url:'.',scope:'.',
     display:'standalone',background_color:'#16211B',theme_color:'#16211B',
     icons:[
       {src:small,sizes:'180x180',type:'image/png',purpose:'any'},
-      {src:large,sizes:'512x512',type:'image/png',purpose:'any'},
-      {src:large,sizes:'512x512',type:'image/png',purpose:'maskable'}
+      {src:big,sizes:'512x512',type:'image/png',purpose:'any'},
+      {src:big,sizes:'512x512',type:'image/png',purpose:'maskable'}
     ]
   };
   try{
